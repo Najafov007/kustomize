@@ -21,4 +21,3 @@ spec:
                 name: adminer-svc
                 port:
                   number: 8080
-

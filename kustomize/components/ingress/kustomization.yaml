@@ -4,3 +4,14 @@ kind: Component
 resources:
   - ingress-adminer.yaml
   - ingress-pgadmin.yaml
+
+patchesStrategicMerge:
+  - ingress-adminer.yaml
+
+patches:
+  - target:
+      group: networking
+      version: v1
+      kind: Ingress
+      name: adminer-ingress
+    path: patch-ingress-adminer.yaml
