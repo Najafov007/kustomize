@@ -11,5 +11,11 @@ components:
   - ../../components/svc
   - ../../components/adminer
 
-patchesStrategicMerge:
-- pgadmin-dev.yaml
+patches:
+  - target: 
+    kind: Deployment
+    name: pgadmin
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 5
