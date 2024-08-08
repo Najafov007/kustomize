@@ -4,9 +4,6 @@ kind: Component
 resources:
   - adminer.yaml
 
-patchesStrategicMerge:
-  - patch-adminer.yaml
-
 patches:
   - target:
       group: apps
