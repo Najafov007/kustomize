@@ -10,4 +10,7 @@ patches:
       version: v1
       kind: Deployment
       name: adminer
-    path: patch-adminer.yaml
+    patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 20
