@@ -9,6 +9,7 @@ components:
   - ../../components/pvc
   - ../../components/ingress
   - ../../components/svc
+  - ../../components/adminer
 
 patchesStrategicMerge:
 - ingress-adminer-dev.yaml
