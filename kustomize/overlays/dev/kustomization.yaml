@@ -13,5 +13,3 @@ components:
 
 patchesStrategicMerge:
 - pgadmin-dev.yaml
-
-
