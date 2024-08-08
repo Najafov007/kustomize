@@ -1,0 +1,80 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: database-backup
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: postgres-backup
+              image: postgres:latest
+              env:
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secret
+                      key: postgres-password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  PGPASSWORD=$POSTGRES_PASSWORD pg_dumpall -h postgres -U nijat | gzip > /backup/postgres-$(date +"%Y-%m-%d-%H-%M").sql.gz
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+            - name: mysql-backup
+              image: mysql:latest
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: mysql-root-password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  mysqldump -h mysql -u root --password=$MYSQL_ROOT_PASSWORD --all-databases | gzip > /backup/mysql-$(date +"%Y-%m-%d-%H-%M").sql.gz
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+            - name: tar-creating
+              image: pifaqorik/alpine-nijat:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  sleep 5s  # backuplarin yaranmasi ucuhn gozlenilen vaxt
+                  latest_mysql=$(ls -t /backup/mysql-*.sql.gz | head -n 1)
+                  latest_postgres=$(ls -t /backup/postgres-*.sql.gz | head -n 1)
+                  last_vaxt=$( echo $latest_postgres | cut -d "-" -f2-6 | cut -d "." -f1)
+                  tar -czvf /backup/archive-$last_vaxt.tar.gz $latest_mysql $latest_postgres
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+            - name: email-sending
+              image: pifaqorik/alpine-nijat:nijatemail
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  sleep 10s 
+                  last_vaxt=$(ls -t /backup | grep archive | head -n 1)
+                  sh script.sh "$last_vaxt"
+                  msmtp --debug -a gmail nijatnajafov01@gmail.com < email_with_attachment.txt
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: backup-pvc
+
