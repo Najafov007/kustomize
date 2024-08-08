@@ -13,4 +13,4 @@ patches:
       version: v1
       kind: Deployment
       name: adminer
-    path: patch-deploy.yaml
+    path: patch-adminer.yaml
