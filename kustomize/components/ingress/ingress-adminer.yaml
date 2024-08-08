@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adminer-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-path: /adminer
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: 152.42.156.69.nip.io
+      http:
+        paths:
+          - path: /adminer(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: adminer-svc
+                port:
+                  number: 8080
+

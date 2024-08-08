@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pgadmin
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "nijat@nijat.com"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "admin"
+            - name: SCRIPT_NAME
+              value: "/pgadmin"  # ingress.yaml proceed elemesi uchun env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-svc
+spec:
+  selector:
+    app: pgadmin
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30056
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+

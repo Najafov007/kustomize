@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+  #finalizers silindi
+spec:
+  project: default
+  source: 
+    repoURL: https://gitlab.com/srgkinley/task-sql.git
+    targetRevision: HEAD
+    path: root-app/app1/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
