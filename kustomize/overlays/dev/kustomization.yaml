@@ -12,7 +12,6 @@ components:
   - ../../components/adminer
 
 patchesStrategicMerge:
-- ingress-adminer-dev.yaml
 - pgadmin-dev.yaml
 
 
