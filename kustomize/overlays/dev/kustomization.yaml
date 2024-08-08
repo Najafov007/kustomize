@@ -11,7 +11,6 @@ components:
   - ../../components/svc
 
 patchesStrategicMerge:
-- adminer.yaml 
 - ingress-adminer-dev.yaml
 - pgadmin-dev.yaml
 

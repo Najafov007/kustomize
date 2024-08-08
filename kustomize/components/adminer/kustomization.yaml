@@ -4,13 +4,13 @@ kind: Component
 resources:
   - adminer.yaml
 
+patchesStrategicMerge:
+  - patch-adminer.yaml
+
 patches:
   - target:
       group: apps
       version: v1
       kind: Deployment
       name: adminer
-    patch: |  
-          - op: replace
-            path: /spec/replicas
-            value: 15
+    path: patch-deploy.yaml
