@@ -1,17 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: db-pod
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: db-pod
-  template:
-    metadata:
-      labels:
-        app: db-pod
-    spec:
-      containers:
-      - name: db-pod-cont
-        image: mongodb
+### Requestler ###
+- op: add
+  path: /spec/template/spec/containers/0/resources/requests/memory
+  value: "128Mi"
+- op: add
+  path: /spec/template/spec/containers/0/resources/requests/cpu
+  value: "150m"
+
+### Limitler ###
+- op: add
+  path: /spec/template/spec/containers/0/resources/limits/memory
+  value: "256Mi"
+- op: add
+  path: /spec/template/spec/containers/0/resources/limits/cpu
+  value: "350m"

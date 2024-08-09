@@ -10,9 +10,9 @@ components:
   - ../../components/ingress
   - ../../components/svc
   - ../../components/adminer
-  - ../../components/resources/medium
-  - ../../components/resources/high
-  - ../../components/resources/critical
+  # - ../../components/resources/medium
+  # - ../../components/resources/high
+  # - ../../components/resources/critical
 
 patches:
   - target:
@@ -23,4 +23,4 @@ patches:
     patch: |
         - op: replace
           path: /spec/replicas
-          valueS: 5
+          value: 5
