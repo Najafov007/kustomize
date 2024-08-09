@@ -20,7 +20,7 @@ patches:
       version: v1
       kind: Deployment
       name: pgadmin
-      patch: |
+    patch: |
         - op: replace
           path: /spec/replicas
-          value: 5
+          valueS: 5
