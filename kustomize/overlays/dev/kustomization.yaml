@@ -11,6 +11,7 @@ components:
   - ../../components/svc
   - ../../components/adminer
   - ../../components/resources/medium
+  - ../../components/hpa/hpa-low
 
 
 patches:
