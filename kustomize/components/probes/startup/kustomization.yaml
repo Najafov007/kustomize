@@ -9,7 +9,7 @@ patches:
       name: dev-mysql
     patch: |
       - op: add
-        path: /spec/template/spec/containers/0/readinessProbe
+        path: /spec/template/spec/containers/0/startupProbe
         value:
           exec:
             command:
@@ -31,7 +31,7 @@ patches:
       name: dev-postgres
     patch: |
       - op: add
-        path: /spec/template/spec/containers/0/readinessProbe
+        path: /spec/template/spec/containers/0/startupProbe
         value:
           exec:
             command:
