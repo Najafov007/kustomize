@@ -10,9 +10,8 @@ components:
   - ../../components/ingress
   - ../../components/svc
   - ../../components/adminer
-  # - ../../components/resources/medium
-  # - ../../components/resources/high
-  # - ../../components/resources/critical
+  - ../../components/resources/medium
+
 
 patches:
   - target:
