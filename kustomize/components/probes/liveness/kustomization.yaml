@@ -11,8 +11,35 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/livenessProbe
         value:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          exec:
+            command:
+            - mysqladmin
+            - ping
+            - -h127.0.0.1
+            - -u
+            - root
+            - -p$(MYSQL_ROOT_PASSWORD)
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: dev-mysql
+    patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/livenessProbe
+        value:
+          exec:
+            command:
+            - pg_isready
+            - -d
+            - $POSTGRES_DB
+            - -U
+            - $POSTGRES_USER
+            - -h
+            - 127.0.0.1
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
