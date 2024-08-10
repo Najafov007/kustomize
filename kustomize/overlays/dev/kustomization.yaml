@@ -14,6 +14,7 @@ components:
   - ../../components/hpa/hpa-low
   - ../../components/probes/liveness
   - ../../components/probes/readiness
+  - ../../components/probes/startup
 
 
 patches:
