@@ -1,28 +1,21 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 
-resources:
-  - resource.yaml
-
 patches:
   - target:
       group: apps
       version: v1
       kind: Deployment
-      name: db-pod
-    patch: |  
-    ### Requestler ###
+      name: pgadmin
+    patch: |
       - op: add
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: "256Mi"
+        path: /spec/template/spec/containers/0/resources/requests
+        value:
+          cpu: "200m"
+          memory: "256Mi"
+      
       - op: add
-        path: /spec/template/spec/containers/0/resources/requests/cpu
-        value: "350m"
-
-    ### Limitler ###
-      - op: add
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: "512Mi"
-      - op: add
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: "500m"
+        path: /spec/template/spec/containers/0/resources/limits
+        value:
+          cpu: "400m"
+          memory: "512Mi"
