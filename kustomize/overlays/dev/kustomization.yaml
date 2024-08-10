@@ -13,7 +13,7 @@ components:
   - ../../components/resources/medium
   - ../../components/hpa/hpa-low
   - ../../components/probes/liveness
-  - ../../components/probes/rediness
+  - ../../components/probes/readiness
 
 
 patches:
