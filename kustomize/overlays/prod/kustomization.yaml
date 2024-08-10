@@ -12,6 +12,9 @@ components:
   - ../../components/adminer
   - ../../components/resources/critical
   - ../../components/hpa/hpa-high
+  - ../../components/probes/liveness
+  - ../../components/probes/readiness
+  - ../../components/probes/startup
 
 patches:
   - target:
