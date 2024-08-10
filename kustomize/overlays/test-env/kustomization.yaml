@@ -11,7 +11,7 @@ components:
   - ../../components/svc
   - ../../components/adminer
   - ../../components/resources/high
-
+  - ../../components/hpa/hpa-medium
 
 patches:
   - target:
