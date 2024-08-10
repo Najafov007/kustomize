@@ -15,3 +15,5 @@ replacements:
         fieldPaths:
           - metadata.name
           - spec.scaleTargetRef.name
+
+namePrefix: "prod-"
