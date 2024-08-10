@@ -16,7 +16,7 @@ replacements:
           - metadata.name
           - spec.scaleTargetRef.name
 
-namePrefix: "dev-"
+namePrefix: "prod-"
 
 patches:
   - target:
